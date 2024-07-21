@@ -6,10 +6,9 @@ const Index = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Simulate a loading process then navigate to the home screen
     const timer = setTimeout(() => {
       router.replace('/home');
-    }, 2000); // Adjust the duration as needed
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [router]);

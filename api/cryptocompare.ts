@@ -10,10 +10,8 @@ import { parse } from "@babel/core";
 
 const CRYPTOCOMPARE_API_BASE_URL = "https://min-api.cryptocompare.com/data";
 
-// Coin isimlerini ve sembollerini almak için kullanılacak endpoint
 const COIN_LIST_ENDPOINT = `${CRYPTOCOMPARE_API_BASE_URL}/all/coinlist`;
 
-// Fiyat bilgilerini almak için kullanılacak endpoint
 const PRICE_MULTI_ENDPOINT = `${CRYPTOCOMPARE_API_BASE_URL}/pricemultifull`;
 
 export const fetchAllCoins = async (): Promise<Coin[]> => {
@@ -22,7 +20,7 @@ export const fetchAllCoins = async (): Promise<Coin[]> => {
     }>(COIN_LIST_ENDPOINT);
 
     const coinList = Object.values(data.Data)
-        .filter((coin: CryptoCompareCoinData) => coin.IsTrading) // IsTrading true olanları filtrele
+        .filter((coin: CryptoCompareCoinData) => coin.IsTrading)
         .map((coin: CryptoCompareCoinData) => ({
             id: coin.Id,
             name: coin.CoinName,
@@ -30,14 +28,14 @@ export const fetchAllCoins = async (): Promise<Coin[]> => {
             iconUrl: `https://www.cryptocompare.com${coin.ImageUrl}`,
             price: 0,
             change24h: 0,
-            sparklineData: [], // Implement sparkline data fetching and processing if needed
-            sortOrder: coin.SortOrder, // SortOrder ekle
+            sparklineData: [],
+            sortOrder: coin.SortOrder,
             openHourPrice: 0,
             circulatingSupply: '',
             marketCap: '',
             volume: '',
         }))
-        .sort((a, b) => parseInt(a.sortOrder) - parseInt(b.sortOrder)); // SortOrder'a göre sırala
+        .sort((a, b) => parseInt(a.sortOrder) - parseInt(b.sortOrder));
 
     return coinList as Coin[];
 };
@@ -71,7 +69,7 @@ export const fetchCoinPrices = async (
                         ? parseFloat(priceData.CHANGEPCT24HOUR)
                         : 0,
                 openHourPrice: parseFloat(priceData.OPENHOUR),
-                sparklineData: [], // Implement sparkline data fetching and processing if needed
+                sparklineData: [],
                 sortOrder: "",
                 circulatingSupply: priceData.CIRCULATINGSUPPLY,
                 marketCap: priceData.MKTCAP,
@@ -83,7 +81,6 @@ export const fetchCoinPrices = async (
     return coinPrices;
 };
 
-// Sparkline verilerini ve fiyatları kontrol ederek sayfalandırılmış coin verilerini döndürür
 export const fetchCoins = async (
     page: number,
     pageSize: number = 10
@@ -93,7 +90,6 @@ export const fetchCoins = async (
     const symbols = paginatedCoins.map((coin) => coin.symbol);
     const coinPrices = await fetchCoinPrices(symbols);
 
-    // Sparkline verilerini yükle ve sparkline verisi olmayanları filtrele
     const coins: Coin[] = [];
     for (const coin of paginatedCoins) {
         const sparklineData = await fetchSparklineData(coin.symbol);
@@ -118,17 +114,15 @@ export const fetchSparklineData = async (symbol: string): Promise<number[]> => {
                 params: {
                     fsym: symbol,
                     tsym: "USD",
-                    limit: 24, // Son 24 saatlik veri
+                    limit: 24,
                 },
             }
         );
 
-        // Eğer data veya data.Data.Data mevcut değilse boş dizi döndür
         if (!data || !data.Data || !data.Data.Data) {
             return [];
         }
 
-        // Fiyatları döndür (her saatlik veri için [zaman damgası, fiyat] şeklinde dizi döner)
         return data.Data.Data.map((item: any) => item.close);
     } catch (error) {
         console.error(`Error fetching sparkline data for ${symbol}:`, error);
@@ -136,7 +130,6 @@ export const fetchSparklineData = async (symbol: string): Promise<number[]> => {
     }
 };
 
-// Coin detaylarını çekmek için fonksiyon
 export const fetchCoinDetails = async (symbol: string): Promise<Coin> => {
     const allCoins = await fetchAllCoins();
     const coin = allCoins.find((c) => c.symbol === symbol);

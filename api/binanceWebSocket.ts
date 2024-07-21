@@ -32,7 +32,7 @@ const createWebSocketConnection = () => {
           marketCap: '',
           volume: '',
         };
-        // Abone olunan coin için güncelleme fonksiyonunu çağır
+
         subscriptions[data.s.toLowerCase()](updatedCoin);
       }
     };
@@ -43,11 +43,11 @@ const createWebSocketConnection = () => {
 
     ws.onclose = (event) => {
       console.log("WebSocket connection closed", event);
-      // Reset subscriptions
+
       for (const key in subscriptions) {
         delete subscriptions[key];
       }
-      // Belirli bir süre sonra tekrar bağlanmayı dene
+
       setTimeout(createWebSocketConnection, 5000);
     };
   }
@@ -77,7 +77,7 @@ const processPendingSubscriptions = () => {
       );
     }
 
-    // Abonelik isteğini 100ms gecikme ile gönder
+
     setTimeout(subscribeNext, 100);
   };
 

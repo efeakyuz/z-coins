@@ -53,7 +53,6 @@ const PriceChart: React.FC<PriceChartProps> = ({ data, onPeriodChange, selectedI
       fullDate: formatDateFull(item.date),
     }));
 
-    // Belirli bir sayıda etiketi atlamak için kullanılan logic
     const maxLabels = 10;
     const step = Math.ceil(formattedData.length / maxLabels);
     return formattedData.filter((_, index) => index % step === 0);
