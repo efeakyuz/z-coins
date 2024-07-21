@@ -1,4 +1,4 @@
-# Welcome to your Expo app 👋
+# Welcome to Z-Coins App 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -7,7 +7,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 1. Install dependencies
 
    ```bash
-   npm install
+   yarn install
    ```
 
 2. Start the app
@@ -23,28 +23,182 @@ In the output, you'll find options to open the app in a
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+# Z-Coins React Native Application
 
-When you're ready, run:
+## Introduction
 
-```bash
-npm run reset-project
+Z-Coins is a React Native application that fetches and displays cryptocurrency data in a live-updating list. The app integrates with the Binance API to provide real-time updates and offers detailed views of individual assets, including price charts and market statistics.
+
+## Features
+
+- **API Integration**: Connects to the Binance API to fetch cryptocurrency data.
+- **Live Data Updates**: Implements live updates for asset data using WebSockets.
+- **Price Change Highlighting**: Highlights price changes with colors (green for increases, red for decreases).
+- **User Interface**:
+  - Splash Screen
+  - Home Screen
+  - Asset Detail Screen with price chart and market stats
+- **List Display**:
+  - Displays asset data with icons, names, symbols, prices, and 24-hour changes.
+  - Infinite scrolling for the asset list.
+
+## Project Structure
+
+```plaintext
+project-root/
+├── api/
+│   ├── binance.ts
+│   ├── binanceWebSocket.ts
+│   ├── cryptocompare.ts
+├── app/
+│   ├── (page)/
+│   │   ├── _layout.tsx
+│   │   ├── [id].tsx
+│   ├── index.tsx
+│   ├── _layout.tsx
+│   ├── home.tsx
+│   ├── index.tsx
+├── assets/
+│   ├── fonts/
+│   ├── images/
+├── components/
+│   ├── __tests__/
+│   ├── Card/
+│   │   ├── CoinCard.tsx
+│   ├── Charts/
+│   │   ├── PriceChart.tsx
+│   │   ├── Sparkline.tsx
+│   ├── common/
+│   │   ├── Header.tsx
+│   │   ├── MarketStats.tsx
+│   │   ├── Screen.tsx
+│   ├── List/
+│   │   ├── InfiniteList.tsx
+│   ├── Skeleton/
+│   │   ├── MarketStatsSkeleton.tsx
+│   │   ├── PriceChartSkeleton.tsx
+├── constants/
+│   ├── Colors.ts
+│   ├── styles.ts
+├── hooks/
+│   ├── useColorScheme.ts
+│   ├── useColorScheme.web.ts
+│   ├── usePriceChangeColor.ts
+│   ├── usePriceFormat.ts
+│   ├── useThemeColor.ts
+│   ├── useWebSocketUpdates.ts
+├── types/
+│   ├── index.ts
+├── utils/
+│   ├── formatters.ts
+├── .expo/
+├── node_modules/
+├── scripts/
+│   ├── reset-project.js
+├── .gitignore
+├── app.json
+├── babel.config.js
+├── expo-env.d.ts
+├── package.json
+├── ReactotronConfig.js
+├── README.md
+├── setupTests.js
+├── tsconfig.json
+├── yarn-error.log
+├── yarn.lock
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## API Integration
 
-## Learn more
+### Binance API
 
-To learn more about developing your project with Expo, look at the following resources:
+The application uses the Binance API to fetch cryptocurrency data and handle WebSocket connections for real-time updates.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Fetching Coin Data
 
-## Join the community
+`fetchCoins` fetches paginated coin data from the Binance API.
 
-Join our community of developers creating universal apps.
+### WebSocket Integration
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+WebSocket connections are used for live updates of coin prices.
+
+## Component Documentation
+
+### CoinCard Component
+
+Displays individual coin information in a card format.
+
+### InfiniteList Component
+
+Displays an infinite scrolling list of coins.
+
+### Header Component
+
+Displays the header information for the asset detail screen.
+
+### PriceChart Component
+
+Displays the price chart for a coin with selectable time intervals.
+
+### MarketStats Component
+
+Displays market statistics for a coin.
+
+## Hooks
+
+### useWebSocketUpdates
+
+Handles WebSocket connections and updates for coin prices.
+
+### usePriceChangeColor
+
+Returns the color for price changes (green for increases, red for decreases).
+
+### usePriceFormat
+
+Formats the price for display.
+
+## Testing
+
+### Running Tests
+
+To run tests, use the following command:
+
+```bash
+yarn test
+```
+
+### Example Test: CoinCard Component
+
+```typescript
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import CoinCard from '../components/Card/CoinCard';
+import { Coin } from '../types';
+
+const mockCoin: Coin = {
+  id: 'bitcoin',
+  name: 'Bitcoin',
+  symbol: 'BTC',
+  iconUrl: 'https://cryptoicons.org/api/icon/btc/200',
+  price: 50000,
+  change24h: 5,
+  sparklineData: [],
+};
+
+describe('CoinCard', () => {
+  it('renders correctly', () => {
+    const { getByText, getByRole } = render(<CoinCard coin={mockCoin} />);
+    expect(getByText('Bitcoin')).toBeTruthy();
+    expect(getByText('BTC')).toBeTruthy();
+    expect(getByRole('image')).toHaveProp('source', { uri: 'https://cryptoicons.org/api/icon/btc/200' });
+    expect(getByText('$50,000.00')).toBeTruthy();
+    expect(getByText('5.00%')).toBeTruthy();
+  });
+});
+```
+
+## Conclusion
+
+Z-Coins is a comprehensive React Native application for tracking and displaying cryptocurrency data. It uses modern development practices, including TypeScript, SOLID principles, and thorough testing. The application provides a robust and interactive user experience with real-time updates and detailed asset views.
