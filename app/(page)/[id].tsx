@@ -2,7 +2,7 @@ import { fetchHistoricalData } from "@/api/binance";
 import { fetchCoinDetails, fetchSparklineData } from "@/api/cryptocompare";
 import Header from "@/components/common/Header";
 import MarketStats from "@/components/common/MarketStats";
-import PriceChart from "@/components/common/PriceChart";
+import PriceChart from "@/components/Charts/PriceChart";
 import Screen from "@/components/common/Screen";
 import MarketStatsSkeleton from "@/components/Skeleton/MarketStatsSkeleton";
 import PriceChartSkeleton from "@/components/Skeleton/PriceChartSkeleton";

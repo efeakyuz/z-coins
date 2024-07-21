@@ -28,9 +28,9 @@ const createWebSocketConnection = () => {
           sparklineData: [],
           sortOrder: "",
           openHourPrice: parseFloat(data.o),
-          circulatingSupply: 0,
-          marketCap: 0,
-          volume: 0,
+          circulatingSupply: '',
+          marketCap: '',
+          volume: '',
         };
         // Abone olunan coin için güncelleme fonksiyonunu çağır
         subscriptions[data.s.toLowerCase()](updatedCoin);
