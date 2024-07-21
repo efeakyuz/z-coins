@@ -1,14 +1,22 @@
 {
-    "cli": {
-      "version": ">= 0.52.0"
+  "cli": {
+    "version": ">= 10.2.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development"
     },
-    "build": {
-      "production": {
-        "workflow": "managed"
-      }
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview"
     },
-    "submit": {
-      "production": {}
+    "production": {
+      "channel": "production"
     }
+  },
+  "submit": {
+    "production": {}
   }
-  
+}
