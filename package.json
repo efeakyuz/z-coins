@@ -1,6 +1,7 @@
 {
   "name": "z-coins",
   "main": "expo-router/entry",
+  "privacy": "public",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
