@@ -30,6 +30,14 @@ In the output, you'll find options to open the app in a
 
 Z-Coins is a React Native application that fetches and displays cryptocurrency data in a live-updating list. The app integrates with the Binance API to provide real-time updates and offers detailed views of individual assets, including price charts and market statistics.
 
+## Running the App
+
+To view the app on your device, you can use the following Expo link:
+
+[Open Z-Coins App](https://expo.dev/preview/update?message=chore%3A%20Publish%20App&updateRuntimeVersion=1.0.0&createdAt=2024-07-21T21%3A49%3A52.363Z&slug=exp&projectId=1b76e6e4-7c6d-40a4-b08d-ec2575d267d1&group=90c098d2-5cd9-456f-a9d5-2d313cc774d1)
+
+You can scan the QR code provided in the link with the Expo Go app to run the application on your device.
+
 ## Features
 
 - **API Integration**: Connects to the Binance API to fetch cryptocurrency data.
