@@ -28,7 +28,7 @@ In the output, you'll find options to open the app in a
 
 ## Introduction
 
-Z-Coins is a React Native application that fetches and displays cryptocurrency data in a live-updating list. The app integrates with the Binance API to provide real-time updates and offers detailed views of individual assets, including price charts and market statistics.
+Z-Coins is a React Native application that fetches and displays cryptocurrency data in a live-updating list. The app integrates with the CryptoCompare API and Binance API to provide real-time updates and offers detailed views of individual assets, including price charts and market statistics.
 
 ## Running the App
 
@@ -40,7 +40,7 @@ You can scan the QR code provided in the link with the Expo Go app to run the ap
 
 ## Features
 
-- **API Integration**: Connects to the Binance API to fetch cryptocurrency data.
+- **API Integration**: Connects to the CryptoCompare API and Binance API to fetch cryptocurrency data.
 - **Live Data Updates**: Implements live updates for asset data using WebSockets.
 - **Price Change Highlighting**: Highlights price changes with colors (green for increases, red for decreases).
 - **User Interface**:
@@ -50,6 +50,10 @@ You can scan the QR code provided in the link with the Expo Go app to run the ap
 - **List Display**:
   - Displays asset data with icons, names, symbols, prices, and 24-hour changes.
   - Infinite scrolling for the asset list.
+
+## Limitations
+
+To avoid rate limits of the `Binance API`, only the first 3 cryptocurrencies listed on the homepage establish a WebSockets connection. The cryptocurrency detail pages do not have this limitation.
 
 ## Project Structure
 
@@ -119,13 +123,17 @@ project-root/
 
 ## API Integration
 
+### CryptoCompare API
+
+The application uses the CryptoCompare API to fetch cryptocurrency data.
+
 ### Binance API
 
-The application uses the Binance API to fetch cryptocurrency data and handle WebSocket connections for real-time updates.
+The application uses the Binance API to fetch cryptocurrency data for line charts and handle WebSocket connections for real-time updates.
 
 ### Fetching Coin Data
 
-`fetchCoins` fetches paginated coin data from the Binance API.
+`fetchCoins` fetches paginated coin data from the CryptoCompare API.
 
 ### WebSocket Integration
 
