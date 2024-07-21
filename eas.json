@@ -1,0 +1,14 @@
+{
+    "cli": {
+      "version": ">= 0.52.0"
+    },
+    "build": {
+      "production": {
+        "workflow": "managed"
+      }
+    },
+    "submit": {
+      "production": {}
+    }
+  }
+  
