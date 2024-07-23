@@ -16,7 +16,6 @@ const Index = () => {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/images/zcoins.png')} style={styles.logo} />
-      <Text style={[styles.subtitle, { position: 'absolute', bottom: 30 }]}>BiLira Cryptocurrency Exchange</Text>
     </View>
   );
 };
